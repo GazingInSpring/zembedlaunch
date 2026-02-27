@@ -340,8 +340,16 @@ function updateChart() {
         chart.data.datasets.forEach((ds, i) => {
             const deltas = originalDatasets[i].data.map((v, k) => Math.round((v - baseData[k]) * 100000) / 100000);
             ds.data = deltas;
-            ds.hidden = (i === baseIdx);
-            if (i !== baseIdx) {
+            ds.hidden = false;
+            if (i === baseIdx) {
+                // Baseline is the zero line — show it styled as reference
+                ds.borderWidth = 3;
+                ds.borderDash = [6, 4];
+                ds.borderColor = originalDatasets[i].borderColor;
+            } else {
+                ds.borderWidth = 2;
+                ds.borderDash = [];
+                ds.borderColor = originalDatasets[i].borderColor;
                 const lo = Math.min(...deltas);
                 const hi = Math.max(...deltas);
                 if (lo < globalMin) globalMin = lo;
@@ -368,6 +376,9 @@ function updateChart() {
         chart.data.datasets.forEach((ds, i) => {
             ds.data = [...originalDatasets[i].data];
             ds.hidden = false;
+            ds.borderWidth = 2;
+            ds.borderDash = [];
+            ds.borderColor = originalDatasets[i].borderColor;
         });
         chart.options.scales.y.min = 0;
         chart.options.scales.y.max = 1;
