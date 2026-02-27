@@ -382,9 +382,9 @@ const STEPS = {
         {val:'relaxed', label:'No constraint'},
     ]},
     storage: {q:'Storage priority?', choices:[
-        {val:'min', label:'Minimize'},
-        {val:'balanced', label:'Balanced'},
         {val:'max', label:'Max accuracy'},
+        {val:'balanced', label:'Balanced'},
+        {val:'min', label:'Minimize'},
     ]},
 };
 
