@@ -100,6 +100,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:#fafafa;color:#111;-web
 .collapse-btn{font-size:13px;color:#aaa;cursor:pointer;border:none;background:none;font-family:inherit;font-weight:500;padding:7px 20px;transition:color .15s}
 .collapse-btn:hover{color:#4f46e5}
 
+.vs{font-size:10px;font-weight:400;color:#bbb;margin-left:3px;letter-spacing:0}
+
 @media(max-width:640px){
     .scatter-row{display:none}
     .reco-grid{gap:20px}
@@ -190,17 +192,19 @@ function fmtBig(b) {
 }
 function fmtTok(t) { return t>=1e6?(t/1e6).toFixed(0)+'M tok/s':t>=1000?(t/1000).toFixed(0)+'k tok/s':t+' tok/s'; }
 
+// Replace only these two functions:
+
 function storageDeltaHtml(bytes, baseBytes) {
     if (baseBytes === 0) return '';
     const pct = ((bytes - baseBytes) / baseBytes) * 100;
     if (Math.abs(pct) < 0.5) return '<span class="delta baseline">baseline</span>';
-    return '<span class="delta saving">' + pct.toFixed(0) + '%</span>';
+    return '<span class="delta saving">' + pct.toFixed(0) + '% <span class="vs">vs full</span></span>';
 }
 function accDeltaHtml(val, base) {
     if (base === 0) return '';
-    const pct = ((val - base) / base) * 100;
-    if (Math.abs(pct) < 0.05) return '<span class="delta baseline">full precision</span>';
-    return '<span class="delta loss">' + pct.toFixed(1) + '%</span>';
+    const pp = (val - base) * 100;
+    if (Math.abs(pp) < 0.05) return '<span class="delta baseline">baseline</span>';
+    return '<span class="delta loss">' + pp.toFixed(1) + '% <span class="vs">vs full</span></span>';
 }
 function storageDeltaCell(bytes, baseBytes) {
     if (baseBytes === 0) return '';
